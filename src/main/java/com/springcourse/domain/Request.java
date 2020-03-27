@@ -27,12 +27,13 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 @Entity(name = "request")
-public class Request implements Serializable{
-	
+public class Request implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -40,7 +41,7 @@ public class Request implements Serializable{
 	private String subject;
 	@Column(columnDefinition = "text")
 	private String description;
-	@Column(name = "creation_date", nullable = false)
+	@Column(name = "creation_date", nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 	@Column(length = 12, nullable = false)
