@@ -5,17 +5,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.annotation.Order;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.springcourse.domain.User;
 import com.springcourse.domain.enums.Role;
 
-@TestMethodOrder(OrderAnnotation.class)
+@RunWith(SpringRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @SpringBootTest
 public class UserRepositoryTests {
 
@@ -23,8 +25,7 @@ public class UserRepositoryTests {
 	private UserRepository repository;
 
 	@Test
-	@Order(1)
-	public void saveTest() {
+	public void AsaveTest() {
 		User user = new User(null, "Diego", "diegoetata@gmail.com", "123", Role.ADMINISTRATOR, null, null);
 		User createdUser = repository.save(user);
 		assertThat(createdUser.getId()).isEqualTo(1);

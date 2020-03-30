@@ -6,19 +6,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.annotation.Order;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.springcourse.domain.Request;
 import com.springcourse.domain.RequestStage;
 import com.springcourse.domain.User;
 import com.springcourse.domain.enums.RequestState;
 
-@TestMethodOrder(OrderAnnotation.class)
+@RunWith(SpringRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @SpringBootTest
 public class RequestStageRepositoryTests {
 
@@ -26,8 +28,7 @@ public class RequestStageRepositoryTests {
 	private RequestStageRepository repository;
 
 	@Test
-	@Order(1)
-	public void saveTest() {
+	public void AsaveTest() {
 		User owner = new User();
 		owner.setId(1L);
 		Request request = new Request();
