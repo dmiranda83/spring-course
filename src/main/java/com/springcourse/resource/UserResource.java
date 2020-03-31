@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springcourse.domain.Request;
 import com.springcourse.domain.User;
 import com.springcourse.dto.UserLoginDto;
+import com.springcourse.service.RequestService;
 import com.springcourse.service.UserService;
 
 @RestController
@@ -22,32 +24,39 @@ import com.springcourse.service.UserService;
 public class UserResource {
 
 	@Autowired
-	private UserService service;
+	private UserService userService;
+	@Autowired
+	private RequestService requestService;
 
 	@PostMapping
 	public ResponseEntity<User> save(@RequestBody User user) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));
+		return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<User> update(@PathVariable(name = "id") Long id, @RequestBody User user) {
 		user.setId(id);
-		return ResponseEntity.ok(service.update(user));
+		return ResponseEntity.ok(userService.update(user));
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<User> getById(@PathVariable(name = "id") Long id) {
-		return ResponseEntity.ok(service.getById(id));
+		return ResponseEntity.ok(userService.getById(id));
+	}
+
+	@GetMapping("/{id}/requests")
+	public ResponseEntity<List<Request>> listAllRequestsById(@PathVariable(name = "id") Long id) {
+		return ResponseEntity.ok(requestService.listAllByOwner(id));
 	}
 
 	@GetMapping
 	public ResponseEntity<List<User>> getAll() {
-		return ResponseEntity.ok(service.listAll());
+		return ResponseEntity.ok(userService.listAll());
 	}
 
 	@PostMapping("/login")
 	public ResponseEntity<User> login(@RequestBody UserLoginDto user) {
-		User userLoggerd = service.login(user.getEmail(), user.getPassword());
+		User userLoggerd = userService.login(user.getEmail(), user.getPassword());
 		return ResponseEntity.ok(userLoggerd);
 	}
 }
