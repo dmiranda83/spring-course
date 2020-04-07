@@ -46,14 +46,15 @@ public class RequestResource {
 
 	@GetMapping("/{id}/request-stage")
 	public ResponseEntity<PageModel<RequestStage>> listAllStagesById(@PathVariable(name = "id") Long id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
 		return ResponseEntity
 				.ok(requestStageService.listAllByRequestIdOnLazyModel(id, new PageRequestModel(page, size)));
 	}
 
 	@GetMapping
-	public ResponseEntity<PageModel<Request>> getAll(@RequestParam(value = "page") int page,
-			@RequestParam(value = "size") int size) {
+	public ResponseEntity<PageModel<Request>> getAll(@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
 		return ResponseEntity.ok(requestService.listAllOnLazyModel(new PageRequestModel(page, size)));
 	}
 
