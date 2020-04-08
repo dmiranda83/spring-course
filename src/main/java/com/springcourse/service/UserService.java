@@ -57,4 +57,8 @@ public class UserService {
 		Page<User> page = repository.findAll(pageable);
 		return new PageModel<>((int) page.getTotalElements(), page.getSize(), page.getTotalPages(), page.getContent());
 	}
+
+	public int updateRole(User user) {
+		return repository.updateRole(user.getId(), user.getRole());
+	}
 }
