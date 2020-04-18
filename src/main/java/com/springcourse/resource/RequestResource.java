@@ -1,5 +1,7 @@
 package com.springcourse.resource;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springcourse.domain.Request;
 import com.springcourse.domain.RequestStage;
+import com.springcourse.dto.RequestSaveDto;
+import com.springcourse.dto.RequestUpdateDto;
 import com.springcourse.model.PageModel;
 import com.springcourse.model.PageRequestModel;
 import com.springcourse.service.RequestService;
@@ -29,12 +33,14 @@ public class RequestResource {
 	private RequestStageService requestStageService;
 
 	@PostMapping
-	public ResponseEntity<Request> save(@RequestBody Request request) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(requestService.save(request));
+	public ResponseEntity<Request> save(@RequestBody @Valid RequestSaveDto requestSaveDto) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(requestService.save(requestSaveDto.transformToRequest()));
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Request> update(@PathVariable(name = "id") Long id, @RequestBody Request request) {
+	public ResponseEntity<Request> update(@PathVariable(name = "id") Long id,
+			@RequestBody @Valid RequestUpdateDto requestUpdateDto) {
+		Request request = requestUpdateDto.transformToRequest();
 		request.setId(id);
 		return ResponseEntity.ok(requestService.update(request));
 	}
