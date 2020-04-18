@@ -1,5 +1,6 @@
 package com.springcourse.resource.exception;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,8 +31,10 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		BindingResult bindingResult = ex.getBindingResult();
 		List<ObjectError> allErrors = bindingResult.getAllErrors();
-		String deafultMessage = allErrors.get(0).getDefaultMessage();
-		ApiError error = new ApiError(HttpStatus.BAD_REQUEST.value(), deafultMessage, new Date());
+		List<String> errors = new ArrayList<>();
+		allErrors.forEach(error -> errors.add(error.getDefaultMessage()));
+		String defaultMessage = "Invalid fields";
+		ApiErrorList error = new ApiErrorList(HttpStatus.BAD_REQUEST.value(), defaultMessage, new Date(), errors);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 }
